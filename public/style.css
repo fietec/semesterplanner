@@ -1,0 +1,287 @@
+:root {
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --primary: #2563eb;
+    --danger: #ef4444;
+    --text: #1e293b;
+    --border: #e2e8f0;
+    
+    --c-brown: #9a3412;
+    --c-orange: #ea580c;
+    --c-yellow: #eab308;
+    --c-blue: #0284c7;
+    --c-darkred: #881337;
+	--c-green: #16a34a;
+	--c-gray: #676767;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar / Module Pool */
+.sidebar {
+    width: 320px;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+}
+
+.sidebar h2 { font-size: 1.2rem; }
+
+.add-module-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.add-module-form input, .add-module-form select, .add-module-form button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+.btn-primary:hover { background: #1d4ed8; }
+
+.btn-secondary {
+    background: #475569;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+.btn-secondary:hover { background: #334155; }
+
+.btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.btn-danger:hover {
+    background: var(--danger);
+    color: white;
+}
+
+.pool-dropzone {
+    flex: 1;
+    overflow-y: auto;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 150px;
+}
+
+/* Main Grid */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    gap: 12px;
+}
+
+.semester-row {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    min-height: 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.semester-label {
+    width: 160px;
+    padding: 12px;
+    font-weight: 700;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.semester-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ects-badge {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: #eff6ff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.semester-dropzone {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(110px, 1fr));
+    gap: 8px;
+    padding: 10px;
+    min-height: 80px;
+    align-items: center;
+}
+
+/* Module Card */
+.module-card {
+    position: relative;
+    background: var(--c-orange);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 60px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.module-card:active { cursor: grabbing; }
+
+.module-card.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+/* Module Card Passed Button */
+.card-pass-toggle input {
+    display: none;
+}
+
+.card-pass-toggle {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
+
+.card-pass-toggle .card-pass-label {
+    width: 16px;
+    height: 16px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    background: rgba(0, 0, 0, 0.25);
+    line-height: 1;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    display: none;
+}
+
+.card-pass-toggle input:checked + .card-pass-label {
+    display: flex;
+    background: rgba(68, 239, 68, 0.9);
+}
+
+.card-pass-toggle .card-pass-label:hover{
+    background: rgba(68, 239, 68, 0.9);
+}
+
+/* Module Card Delete Button */
+.card-delete-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background: rgba(0, 0, 0, 0.25);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+.module-card:hover .card-delete-btn {
+    display: flex;
+}
+
+.module-card:hover .card-pass-label {
+    display: flex;
+}
+
+.drag-over {
+    background: #f0f9ff !important;
+    border-color: var(--primary);
+}
+
+/* Color variations */
+.bg-brown { background-color: var(--c-brown); }
+.bg-orange { background-color: var(--c-orange); }
+.bg-yellow { background-color: var(--c-yellow); color: #000; }
+.bg-blue { background-color: var(--c-blue); }
+.bg-darkred { background-color: var(--c-darkred); }
+.bg-green { background-color: var(--c-green);}
+.bg-gray { background-color: var(--c-gray);}

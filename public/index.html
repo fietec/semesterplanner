@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semester & ECTS Planner</title>
+  <link rel="stylesheet" type="text/css" href="/public/style.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --background: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      max-width: 440px;
+      width: 100%;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .description {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-box {
+      background-color: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      color: #1e40af;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Semester & ECTS Planner</h2>
+    <p class="description">
+      Create a custom semester plan or jump back into an existing one. Enter your plan name below to access your unique workspace link.
+    </p>
+
+    <div class="info-box">
+      <strong>Note:</strong> Changes inside your workspace are only saved when you click <em>"Save Data"</em>.
+    </div>
+
+    <form onsubmit="visit_plan(); return false;" class="input-group">
+      <label for="plan-input">Plan Name</label>
+      <div class="field-row">
+        <input id="plan-input" type="text" placeholder="e.g. my-plan" required autofocus>
+        <button type="submit">Open Plan</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const input = document.getElementById('plan-input');
+    function visit_plan() {
+      const value = input.value.trim();
+      if (value !== "") {
+        window.location.href = `./plan/${encodeURIComponent(value)}`;
+      }
+    }
+  </script>
+</body>
+</html>
