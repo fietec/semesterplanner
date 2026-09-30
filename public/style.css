@@ -89,6 +89,20 @@ body {
 
 .btn-secondary:hover { background: #334155; }
 
+.btn-very-danger {
+    background: #ef4444;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: background 0.15s ease; /* Smooth transition */
+}
+
+.btn-very-danger:hover { 
+    background: #dc2626;
+}
 .btn-danger {
     background: transparent;
     color: var(--danger);

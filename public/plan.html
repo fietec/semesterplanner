@@ -42,6 +42,7 @@
           <button class="btn-primary" style="background: #16a34a;" onclick="savePlan()">💾 Save Data</button>
           <button class="btn-secondary" onclick="importPlan()">📥 Import Data</button>
           <button class="btn-secondary" onclick="exportPlan()">📤 Export Data</button>
+          <button class="btn-very-danger" onclick="deletePlan()">❌ Delete Plan</button>
         </div>
       </div>
 
@@ -109,11 +110,36 @@
           const url = URL.createObjectURL(blob);
           const downloadLink = document.createElement('a');
           downloadLink.href = url;
-          downloadLink.download = 'semesterplan.json';
+          const pathArray = window.location.pathname.split('/');
+          const planName = pathArray.filter(Boolean).pop();
+          downloadLink.download = `semesterplan_${planName}.json`;
           document.body.appendChild(downloadLink);
           downloadLink.click();
           document.body.removeChild(downloadLink);
           URL.revokeObjectURL(url);
+      }
+
+      async function deletePlan() {
+          if (confirm("Do you really want to delete this plan forever (rip your studies)?")){
+              try {
+                  const res = await fetch('', {
+                      method: 'POST',
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify({
+                          action: 'delete',
+                      })
+                  });
+
+                  if (res.ok) {
+                      alert('Plan successfully deleted!');
+                  } else {
+                      alert(`Failed to delete: HTTP ${res.status}`);
+                  }
+              } catch (err) {
+                  alert(`Error connecting to backend API: ${err.message}`);
+              }
+              loadPlan();
+          }
       }
 
       // Render state from received backend JSON structure

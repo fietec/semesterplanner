@@ -62,6 +62,18 @@ def serve(path):
                 plan_path = get_plan_path(plan_id)
                 save_file(plan_path, plan_data)
                 return jsonify(success=True)
+            case 'delete':
+                if path in plans.keys():
+                    plan_id = plans[path]
+                    del plans[path]
+                    save_file(PLAN_INDEX_PATH, plans)
+
+                    data_path = get_plan_path(plan_id)
+                    try:
+                        os.remove(data_path)
+                    except OSError:
+                        pass
+                return jsonify(success=True)
             case _:
                 return jsonify(success=False, message="invalid action")
 
