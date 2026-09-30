@@ -5,7 +5,7 @@
     --danger: #ef4444;
     --text: #1e293b;
     --border: #e2e8f0;
-    
+
     --c-brown: #9a3412;
     --c-orange: #ea580c;
     --c-yellow: #eab308;
@@ -13,6 +13,11 @@
     --c-darkred: #881337;
 	--c-green: #16a34a;
 	--c-gray: #676767;
+	--c-purple: #9333ea;
+    --c-pink: #db2777;
+    --c-teal: #0d9488;
+    --c-indigo: #4f46e5;
+    --c-cyan: #06b6d4;
 }
 
 * {
@@ -285,3 +290,8 @@ body {
 .bg-darkred { background-color: var(--c-darkred); }
 .bg-green { background-color: var(--c-green);}
 .bg-gray { background-color: var(--c-gray);}
+.bg-purple { background-color: var(--c-purple); }
+.bg-pink { background-color: var(--c-pink) ; }
+.bg-teal { background-color: var(--c-teal) ; }
+.bg-indigo { background-color: var(--c-indigo) ; }
+.bg-cyan { background-color: var(--c-cyan) ; }
