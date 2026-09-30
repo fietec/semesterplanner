@@ -34,8 +34,9 @@
         <div style="display: flex; gap: 8px; align-items: center;">
           <span id="grand-total" style="font-weight: bold; font-size: 1rem; margin-right: 10px;">Total ECTS: 0</span>
           <button class="btn-primary" onclick="addSemester()">+ Add Semester</button>
-          <button class="btn-secondary" onclick="loadPlan()">📥 Load Data</button>
           <button class="btn-primary" style="background: #16a34a;" onclick="savePlan()">💾 Save Data</button>
+          <button class="btn-secondary" onclick="importPlan()">📥 Import Data</button>
+          <button class="btn-secondary" onclick="exportPlan()">📤 Export Data</button>
         </div>
       </div>
 
@@ -73,6 +74,43 @@
           }
       }
 
+      function importPlan() {
+          // Create temporary file input
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.accept = '.json';
+
+          fileInput.onchange = async (event) => {
+              const file = event.target.files[0];
+              if (!file) return;
+              try {
+                  const text = await file.text();
+                  const jsonData = JSON.parse(text);
+                  if (confirm("Importing plan. This will overwrite the current plan. Do you want to continue?")){
+                      renderPlanFromJSON(jsonData);
+                  }
+              } catch (error) {
+                  alert('Invalid JSON file. Please check the file formatting and try again.');
+                  console.error(error);
+              }
+          };
+          fileInput.click();
+      }
+
+      function exportPlan() {
+          const data = buildJson();
+          const jsonString = JSON.stringify(data, null, 2);
+          const blob = new Blob([jsonString], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const downloadLink = document.createElement('a');
+          downloadLink.href = url;
+          downloadLink.download = 'semesterplan.json';
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          URL.revokeObjectURL(url);
+      }
+
       // Render state from received backend JSON structure
       function renderPlanFromJSON(data) {
           semestersContainer.innerHTML = '';
@@ -98,7 +136,7 @@
           // Populate unassigned pool
           if (data.unassignedPool) {
               data.unassignedPool.forEach(m => {
-                  pool.appendChild(createModuleCard(m.id, m.name, m.ects, m.color));
+                  pool.appendChild(createModuleCard(m.id, m.name, m.ects, false, m.color));
               });
           }
 
@@ -253,11 +291,10 @@
 
           document.getElementById('grand-total').textContent = `Total ECTS: ${passed} / ${grandTotal}`;
       }
-      // POST request to save data
-      async function savePlan() {
+
+      function buildJson(){
           const rows = semestersContainer.querySelectorAll('.semester-row');
-          
-          const payload = {
+          const data = {
               timestamp: new Date().toISOString(),
               semesters: [],
               unassignedPool: []
@@ -279,11 +316,11 @@
                   });
               });
 
-              payload.semesters.push(semesterData);
+              data.semesters.push(semesterData);
           });
 
           pool.querySelectorAll('.module-card').forEach(card => {
-              payload.unassignedPool.push({
+              data.unassignedPool.push({
                   id: card.id,
                   name: card.dataset.name,
                   ects: parseInt(card.dataset.ects, 10),
@@ -291,7 +328,12 @@
                   color: card.dataset.color
               });
           });
-
+          return data;
+      }
+      
+      // POST request to save data
+      async function savePlan() {
+          const payload = buildJson();
           try {
               const res = await fetch('', {
                   method: 'POST',
@@ -322,6 +364,7 @@
               null,
               nameInput.value,
               parseInt(ectsInput.value, 10),
+              false,
               colorInput.value
           );
 
