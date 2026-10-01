@@ -1,6 +1,7 @@
 import os
 import json
 import secrets
+import sys
 from flask import Flask, request, send_file, jsonify
 
 app = Flask(__name__)
@@ -86,4 +87,11 @@ def root():
     return send_file(INDEX_HTML_PATH)
 
 if __name__ == "__main__":
-    app.run()
+    port = 5000
+    if len(sys.argv) > 1:
+        try:
+            port = int(sys.argv[1])
+        except:
+            pass
+
+    app.run(port=port)
