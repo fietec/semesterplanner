@@ -2,7 +2,7 @@ import os
 import json
 import secrets
 import sys
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, send_from_directory, jsonify
 
 app = Flask(__name__)
 
@@ -80,7 +80,7 @@ def serve(path):
 
 @app.route('/public/<path:path>', methods=['GET'])
 def style(path):
-    return send_file(os.path.join(PUBLIC_PATH, path))
+    return send_from_directory(PUBLIC_PATH, path)
 
 @app.route('/', methods=['GET'])
 def root():
