@@ -1,4 +1,4 @@
-import { semestersContainer } from "./main.js";
+import { semestersContainer, pool } from "./main.js";
 import { deleteSemester, deleteModuleCard, setModulePassed } from "./actions.js";
 
 export function renderPlanFromJSON(data) {
